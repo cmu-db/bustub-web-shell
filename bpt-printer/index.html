@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>BusTub B+Tree Visualizer</title>
+    <title>BusTub B+Tree Printer</title>
     <!-- jQuery -->
     <script src="https://unpkg.com/jquery@3.x.x/dist/jquery.min.js"></script>
     <!-- jQuery Terminal -->
@@ -19,23 +19,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Preview -->
-    <meta property="og:site_name" content="CMU 15-445/645" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="BusTub B+Tree Visualizer" />
-    <meta property="og:url" content="https://15445.courses.cs.cmu.edu" />
-    <meta property="og:description" content="Online visualization tool for BusTub's B+Tree project" />
-    <meta property="og:image" content="https://15445.courses.cs.cmu.edu/fall2022/images/bustub-shell.png" />
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@CMUDB">
-    <meta name="twitter:creator" content="@CMUDB">
-    <meta name="twitter:domain" content=".">
-    <meta property="twitter:label1" content="Semester?" />
-    <meta property="twitter:data1" content="Fall 2024" />
-    <meta property="twitter:label1" content="Relational?" />
-    <meta property="twitter:data1" content="Hell Yes" />
-
     <!-- GraphViz -->
     <script src="https://unpkg.com/viz.js@2.x.x/viz.js"></script>
     <script src="https://unpkg.com/viz.js@2.x.x/full.render.js"></script>
@@ -89,14 +72,14 @@
 <script src="bustub-wasm-bpt-printer.js"></script>
 
 <script type="text/javascript">
-    const BUSTUB_PUBLIC_VERSION_VAR = "bd6c48e"
-    const BUSTUB_PRIVATE_VERSION_VAR = "36b7925"
+    const BUSTUB_PUBLIC_VERSION_VAR = "3a194af"
+    const BUSTUB_PRIVATE_VERSION_VAR = "ffe71c7-dirty"
     const BUSTUB_BUILD_TIME_VAR = "20240930"
     const viz = new Viz()
 
     Module['onRuntimeInitialized'] = function () {
-        const initialize = Module.cwrap('BustubInit', 'number', ['number', 'number'])
-        const executeQuery = Module.cwrap('BustubApplyCommand', 'number', ['string', 'number', 'number'])
+        const initialize = Module.cwrap('BusTubInit', 'number', ['number', 'number'])
+        const executeQuery = Module.cwrap('BusTubApplyCommand', 'number', ['string', 'number', 'number'])
         window.executeQuery = (x) => {
             const bufferSize = 64 * 1024
             let output = "\0".repeat(bufferSize)
@@ -166,17 +149,16 @@
                 }
             }
         }, {
-            greetings: `[[@;;;;bustub.svg]]`,
-            prompt: () => initialized ? "[[b;;]printer> ]" : "leaf_max_size and internal_max_size? (e.g., 3 3) "
-        })
-        term.echo(`<hr><h1>BusTub B+Tree Visualizer</h1>`, { raw: true })
-        term.echo(`
-[[b;;]Solution Version:] ${BUSTUB_PRIVATE_VERSION_VAR} . [[b;;]BusTub Version:] ${BUSTUB_PUBLIC_VERSION_VAR} . [[b;;]Built Date:] ${BUSTUB_BUILD_TIME_VAR}
+            greetings:
+                `Welcome to the BusTub B+ Tree Printer shell! \u{1F68C}\u{1F6C1}
 
-BusTub is a relational database management system built at Carnegie Mellon University for the Introduction to Database Systems (15-445/645) course. This system was developed for educational purposes and should not be used in production environments. &#91;[[!;;;;https://github.com/cmu-db/bustub]BusTub on GitHub]&#93; &#91;[[!;;;;https://15445.courses.cs.cmu.edu/]Course Website]&#93; &#91;[[!;;;;https://github.com/cmu-db/bustub/issues/new]Report Bugs]&#93;
+BusTub is a relational database management system built at Carnegie Mellon University for the Introduction to Database Systems (15-445/645) course. This system was developed for educational purposes and should not be used in production environments. [[!;;;;https://github.com/cmu-db/bustub]BusTub on GitHub] [[!;;;;https://15445.courses.cs.cmu.edu/]Course Website] [[!;;;;https://github.com/cmu-db/bustub/issues/new]Report Bugs]
 
 ${helpMessage}
-`)
+This is BusTub reference solution running in your browser. Solution Version: ${BUSTUB_PRIVATE_VERSION_VAR}, BusTub Version: ${BUSTUB_PUBLIC_VERSION_VAR}, built at ${BUSTUB_BUILD_TIME_VAR}.
+`,
+            prompt: () => initialized ? "[[b;;]printer> ]" : "leaf_max_size and internal_max_size? (e.g., 3 3) "
+        })
     })
 </script>
 
